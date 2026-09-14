@@ -5,6 +5,7 @@ import { EffectComposer, Bloom, Vignette, Noise, ChromaticAberration } from "@re
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import Sculpture from "./Sculpture";
+import PetalField from "./Petals";
 import Rig, { useSceneRig } from "./Rig";
 import { scrollState } from "../lib/scrollStore";
 
@@ -66,7 +67,7 @@ function Lights() {
   );
 }
 
-export default function Scene3D() {
+export default function Scene3D({ petals = true }: { petals?: boolean }) {
   return (
     <Canvas
       dpr={[1, 1.8]}
@@ -80,6 +81,7 @@ export default function Scene3D() {
         <Sculpture />
         <Floor />
         <Atmosphere />
+        {petals && <PetalField />}
         <Environment resolution={256} frames={1} environmentIntensity={0.55}>
           <Lightformer form="rect" intensity={4} color="#fff3e2" position={[0, 4, 9]} scale={[10, 4, 1]} />
           <Lightformer form="rect" intensity={1.5} color="#f6e5cf" rotation-y={Math.PI / 2} position={[-5, 1.5, 1]} scale={[5, 2, 1]} />
