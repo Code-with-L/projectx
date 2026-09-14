@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import Scene3D from "./three/Scene3D";
+import { lazy, Suspense, useEffect, useState } from "react";
 import Nav from "./components/Nav";
 import ProgressRail from "./components/ProgressRail";
 import IntroSection from "./components/sections/IntroSection";
@@ -9,6 +8,10 @@ import SkillsSection from "./components/sections/SkillsSection";
 import AboutSection from "./components/sections/AboutSection";
 import ContactSection from "./components/sections/ContactSection";
 import { initScrollTracking, setSceneBoundaries } from "./lib/scrollStore";
+
+// Scene is large (three.js + effects) — load it lazily so the page
+// paints and is interactive before WebGL initializes.
+const Scene3D = lazy(() => import("./three/Scene3D"));
 
 const SECTION_IDS = ["intro", "identity", "work", "skills", "about", "contact"];
 
@@ -52,7 +55,9 @@ export default function App() {
     <div className="relative bg-[#0a0908]">
       {/* Fixed cinematic 3D backdrop */}
       <div className="fixed inset-0 z-0">
-        <Scene3D petals={petalsOn} />
+        <Suspense fallback={<div className="h-full w-full bg-[#0a0908]" />}>
+          <Scene3D petals={petalsOn} />
+        </Suspense>
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(10,9,8,0.55)_100%)]" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0a0908] to-transparent" />
         <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#0a0908]/80 to-transparent" />
