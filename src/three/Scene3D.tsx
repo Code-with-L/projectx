@@ -70,7 +70,7 @@ function Lights() {
 export default function Scene3D({ petals = true }: { petals?: boolean }) {
   return (
     <Canvas
-      dpr={[1, 1.5]}
+      dpr={[1, 1.8]}
       gl={{ antialias: true, powerPreference: "high-performance" }}
       camera={{ position: [0, -0.1, 6.6], fov: 34, near: 0.1, far: 50 }}
     >

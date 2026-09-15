@@ -56,17 +56,28 @@ function Petals() {
 }
 
 function Halo() {
-  const ref = useRef<THREE.Mesh>(null);
+  const ref = useRef<THREE.Group>(null);
+
   useFrame((_, delta) => {
     if (!ref.current) return;
     ref.current.rotation.z -= delta * 0.025;
     ref.current.rotation.x = Math.PI / 2 + Math.sin(scrollState.progress * Math.PI) * 0.15;
   });
+
   return (
-    <mesh ref={ref} rotation={[Math.PI / 2, 0, 0]}>
-      <torusGeometry args={[2.15, 0.006, 16, 200]} />
-      <meshBasicMaterial color="#cdbfa6" toneMapped={false} />
-    </mesh>
+    <group ref={ref}>
+      <mesh>
+        <torusGeometry args={[2.15, 0.006, 32, 320]} />
+        <meshPhysicalMaterial
+          color="#e8a0b8"
+          metalness={0}
+          roughness={0.6}
+          clearcoat={0.5}
+          clearcoatRoughness={0.3}
+          envMapIntensity={0.5}
+        />
+      </mesh>
+    </group>
   );
 }
 
